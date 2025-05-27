@@ -1,5 +1,6 @@
 import java.time.LocalTime;
 import java.util.Arrays;
+import java.time.Duration;
 
 public class Fila {
     Documento[] dados;
@@ -23,45 +24,56 @@ public class Fila {
         return (posicao + 1) % dados.length;
     }
     public void enfileira (Documento e) {
-        if (filaCheia()) throw new RuntimeException("falha no enfileiramento");
+        if (filaCheia()){
+            System.out.println("Fila esta cheia, libere espaco na fila para adicionar mais arquivos.");
+        }
+        else {
         dados[ultimo] = e;
         ultimo = proximaPosicao(ultimo);
         ocupacao++;
+        }
     }
     public void enfileiraDoc (String nome, String usuario){
         Documento documento = new Documento(nome, usuario);
         System.out.println(documento);
         enfileira(documento);
     }
-    public void filaPrint(String nome, int funcao){
-        Documento[] listaDocs;
-        int ocupacao = 0;
-        if (funcao = 0) {
-            for (int i = 0, count = 0, idx = primeiro; count < ocupacao; count++, idx = proximaPosicao(idx)){
-                if (dados[idx].getNome() == nome){
-                    listaDocs[ocupacao] = dados[idx];
-                    ocupacao++;
-                }
+    public void consultarFila(String nome){
+        boolean achou = false;
+        for(int index = 0;index < ocupacao;index++){
+            if (dados[index].getNome().equals(nome)){
+                System.out.printf("Arquivo encontrado na fila na posicao %d\n", index+1);
+                System.out.println("NOME     USUARIO     HORA DE SOLICITACAO");
+                System.out.println(dados[index]);
+                achou = true;
             }
-            System.out.printf("Foram achados %d registros com esse usuário", ocupacao)
         }
-        if (funcao = 1){
-            for (int i = 0, count = 0, idx = primeiro; count < ocupacao; count++, idx = proximaPosicao(idx)){
-                if (dados[idx].getUser() == nome){
-                    listaDocs[ocupacao] = dados[idx];
-                    ocupacao++;
-                }
-            }
-            System.out.printf("Foram achados %d registros com esse usuário", ocupacao)
-
+        if(achou == false){
+            System.out.println("Arquivo nao encontrado na fila");
         }
-            }
+    }
+    
     public void desenfileira () {
         if (filaVazia()){
             System.out.println("Fila esta vazia");
-            throw new RuntimeException("falha no desenfileiramento")
-        };
+            throw new RuntimeException("falha no desenfileiramento");
+        }
         else {
+            dados[primeiro].horaImpressao();
+
+            LocalTime horaImp = dados[primeiro].getHImpressao();
+            LocalTime horaAdd = dados[primeiro].getHAdicao();
+
+            Duration duracao = Duration.between(horaImp, horaAdd);
+
+            long totalSeconds = duracao.getSeconds();
+
+            long days = totalSeconds / (24 * 3600);
+            long hours = (totalSeconds % (24 * 3600)) / 3600;
+            long seconds = totalSeconds % 60;
+
+            System.out.printf("O arquivo ficou %02d dias%02d horas%02d segundos%n na fila", days, hours, seconds);
+
             Documento temp = dados[primeiro];
             primeiro = proximaPosicao(primeiro);
             ocupacao--;
@@ -105,8 +117,8 @@ public class Fila {
         }
         return s;
     }
-
 }
+
 
 class Documento{
     private String nome;
@@ -119,14 +131,27 @@ class Documento{
         this.usuario = u;
         this.horaSolicitacao = LocalTime.now();
     }
-    
+
+    public void horaImpressao(){
+            this.horaImp = LocalTime.now();
+    }
+
     public String getNome(){
         return this.nome;
     }
 
-    public LocalTime horaImpressao(){
-            this.horaImp = LocalTime.now();
-        }
+    public String getUser(){
+        return this.usuario;
+    }
+
+    public LocalTime getHImpressao(){
+        return horaImp;
+    }
+
+    public LocalTime getHAdicao(){
+        return horaSolicitacao;
+    }
+
 
     @Override
     public String toString() {

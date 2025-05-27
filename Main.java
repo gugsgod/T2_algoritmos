@@ -26,7 +26,8 @@ public class Main {
                     fila.desenfileira();
                     break;
                 case 3:
-                    fila.filaPrint();
+                    String nome = scanner.nextLine();
+                    consultaFila(fila, nome);
 		    break;
                 default:
                     continue; 
@@ -38,6 +39,9 @@ public class Main {
         filaAtual.enfileiraDoc(nome, usuario);
     }
 
+    static void consultaFila(Fila filaAtual, String nome){
+        filaAtual.consultarFila(nome);
+    }
     static int menu() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("1 - Adicionar documento a fila\n2 - Imprimir documento\n3 - Consultar documento\n0 - Sair");
