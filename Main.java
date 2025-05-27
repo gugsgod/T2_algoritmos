@@ -1,30 +1,47 @@
-import java.time.LocalTime;
 import java.util.Scanner;
 
 public class Main {
-    static Scanner scanner = new Scanner();
-    static Fila fila = new Fila();
     public static void main (String[] args){
-        boolean loop = True;
-        while (loop == True) {
+        Fila fila = new Fila();
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
             int opc = menu();
+            if (opc == 0) {
+                break;
+            }
             switch(opc){
-                case 0:
-                    loop = False;
+                case 1:
+                    System.out.println("Nome do arquivo: ");
+                    String arquivo = scanner.nextLine(); 
+                    System.out.println("Nome do usuario: ");
+                    String usuario = scanner.nextLine(); 
+                    try {
+                        adicionaDocumento(fila, arquivo, usuario);
+                    }
+                    catch(Exception e) {
+                        System.out.println("erro" + e);
+                    }
+		    break;
+                case 2:
+                    fila.desenfileira();
                     break;
+                case 3:
+                    fila.filaPrint();
+		    break;
+                default:
+                    continue; 
             }
         }
-        adicionaDocumento();
     }
 
-    static void adicionaDocumento(String nome, String usuario){
-        Documento documento = new Documento(nome, usuario);
-        fila.enfileira(documento);
-        System.out.println(fila.desenfileira());
+    static void adicionaDocumento(Fila filaAtual, String nome, String usuario){
+        filaAtual.enfileiraDoc(nome, usuario);
     }
 
-    static void menu() {
+    static int menu() {
+        Scanner scanner = new Scanner(System.in);
         System.out.println("1 - Adicionar documento a fila\n2 - Imprimir documento\n3 - Consultar documento\n0 - Sair");
-        return scanner.nextLine();
+        int select = scanner.nextInt();
+        return select;
     }
 }

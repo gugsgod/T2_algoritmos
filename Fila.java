@@ -28,13 +28,47 @@ public class Fila {
         ultimo = proximaPosicao(ultimo);
         ocupacao++;
     }
-    public Documento desenfileira () {
-        if (filaVazia()) throw new RuntimeException("falha no desenfileiramento");
-        Documento temp = dados[primeiro];
-        primeiro = proximaPosicao(primeiro);
-        ocupacao--;
-        return temp;
+    public void enfileiraDoc (String nome, String usuario){
+        Documento documento = new Documento(nome, usuario);
+        System.out.println(documento);
+        enfileira(documento);
     }
+    public void filaPrint(String nome, int funcao){
+        Documento[] listaDocs;
+        int ocupacao = 0;
+        if (funcao = 0) {
+            for (int i = 0, count = 0, idx = primeiro; count < ocupacao; count++, idx = proximaPosicao(idx)){
+                if (dados[idx].getNome() == nome){
+                    listaDocs[ocupacao] = dados[idx];
+                    ocupacao++;
+                }
+            }
+            System.out.printf("Foram achados %d registros com esse usuário", ocupacao)
+        }
+        if (funcao = 1){
+            for (int i = 0, count = 0, idx = primeiro; count < ocupacao; count++, idx = proximaPosicao(idx)){
+                if (dados[idx].getUser() == nome){
+                    listaDocs[ocupacao] = dados[idx];
+                    ocupacao++;
+                }
+            }
+            System.out.printf("Foram achados %d registros com esse usuário", ocupacao)
+
+        }
+            }
+    public void desenfileira () {
+        if (filaVazia()){
+            System.out.println("Fila esta vazia");
+            throw new RuntimeException("falha no desenfileiramento")
+        };
+        else {
+            Documento temp = dados[primeiro];
+            primeiro = proximaPosicao(primeiro);
+            ocupacao--;
+            System.out.println(temp);
+        }
+    }
+
     @Override
     public String toString() {
         if (filaVazia()) return "fila vazia";
@@ -78,6 +112,7 @@ class Documento{
     private String nome;
     private String usuario;
     private LocalTime horaSolicitacao;
+    private LocalTime horaImp;
 
     Documento(String n, String u){
         this.nome = n;
@@ -85,9 +120,19 @@ class Documento{
         this.horaSolicitacao = LocalTime.now();
     }
     
+    public String getNome(){
+        return this.nome;
+    }
+
+    public LocalTime horaImpressao(){
+            this.horaImp = LocalTime.now();
+        }
+
     @Override
     public String toString() {
-        String string = this.nome + "   " + this.usuario + "   " + horaSolicitacao.toString();
+        String string = this.nome + "   " + this.usuario  + "   " + horaSolicitacao.toString();
         return string;
     }
+
+    
 }
