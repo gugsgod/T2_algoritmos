@@ -54,7 +54,7 @@ public class Pilha {
         doc.horaImpressao();
         Duration tempoDecorrido = Duration.between(doc.getHoraSolicitacao(), doc.getHoraImp());
         long segundos = tempoDecorrido.getSeconds();
-        System.out.println("Reimpressão realizada com sucesso!\nTempo decorrido: " + segundos + "s");
+        System.out.println("Reimpressão realizada com sucesso!\nNome do arquivo reimpresso: " + doc.getNome() + "\nTempo decorrido: " + segundos + "s");
         return doc;
     }
     public Documento peek () {
@@ -71,7 +71,7 @@ public class Pilha {
     }
 
     public Documento consultarDocumento(String nome){
-        int posicao = 0;
+        int posicao = 1;
         No runner = topo;
         while (runner != null && !runner.getDoc().getNome().equals(nome)) {
             runner = runner.getProximo();
