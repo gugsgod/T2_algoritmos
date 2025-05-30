@@ -8,11 +8,12 @@ public class Pilha {
     public int verificarOcupacao(){
         int i = 0;
         No runner = topo;
-        while(runner.getProximo() != null){
+        while(runner != null){
+            i++;
             runner = runner.getProximo();
         }
         return i;
-    }
+    }    
 
     public boolean estaCheio(){
         return tamanhoMaximo == verificarOcupacao();
@@ -72,17 +73,16 @@ public class Pilha {
     public Documento consultarDocumento(String nome){
         int posicao = 0;
         No runner = topo;
-        try {
-            while(runner.getDoc().getNome() != nome){
-                runner = runner.getProximo();
-                posicao++;
-            }
-        } catch(Exception e){
-            System.out.println("Não foi possível realizar a operação: " + e.getMessage());
+        while (runner != null && !runner.getDoc().getNome().equals(nome)) {
+            runner = runner.getProximo();
+            posicao++;
         }
-        runner.getDoc().setPosicao(posicao);
+        if (runner == null) {
+            return null;
+        }
+        runner.getDoc().setPosicao(posicao);;
         return runner.getDoc();
-    }
+    }    
 }
 class No {
     private Documento doc;
@@ -141,7 +141,7 @@ class Documento{
 
     @Override
     public String toString() {
-        String string = "Nome: " + nome + "\nUsuário: " + usuario  + "\nPosição na pilha: "  + posicao + "\nHora de solicitação: " + horaSolicitacao.toString();
+        String string = "Nome: " + nome + "\nUsuario: " + usuario  + "\nPosicao na pilha: "  + posicao + "\nHora de solicitacao: " + horaSolicitacao.toString();
         return string;
     }
 
