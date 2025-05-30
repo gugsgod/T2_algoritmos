@@ -1,8 +1,32 @@
 import java.util.Scanner;
+import java.io.File;
+import java.util.ArrayList;
+import java.io.FileNotFoundException;
 
 public class Main {
     public static void main (String[] args){
         Fila fila = new Fila();
+	
+	
+	try {
+		File file = new File("entrada.txt");
+	
+		Scanner arquivoData = new Scanner(file);
+		ArrayList<String> linhas = new ArrayList<>();
+	
+		while(arquivoData.hasNextLine()) {
+			String line = arquivoData.nextLine();
+			linhas.add(line);
+		}
+	
+		for(int i = 0; i<20; i = i + 2){
+			adicionaDocumento(fila, linhas.get(i), linhas.get(i+1));
+		}
+	}
+	catch (FileNotFoundException e){
+		System.out.println("File not found.");
+        	e.printStackTrace();
+	}
         Scanner scanner = new Scanner(System.in);
         while (true) {
             int opc = menu();
@@ -26,6 +50,7 @@ public class Main {
                     fila.desenfileira();
                     break;
                 case 3:
+		    System.out.println("Nome do arquivo:");
                     String nome = scanner.nextLine();
                     consultaFila(fila, nome);
 		    break;

@@ -56,7 +56,6 @@ public class Fila {
     public void desenfileira () {
         if (filaVazia()){
             System.out.println("Fila esta vazia");
-            throw new RuntimeException("falha no desenfileiramento");
         }
         else {
             dados[primeiro].horaImpressao();
@@ -64,15 +63,11 @@ public class Fila {
             LocalTime horaImp = dados[primeiro].getHImpressao();
             LocalTime horaAdd = dados[primeiro].getHAdicao();
 
-            Duration duracao = Duration.between(horaImp, horaAdd);
+            Duration duracao = Duration.between(horaAdd, horaImp);
 
             long totalSeconds = duracao.getSeconds();
 
-            long days = totalSeconds / (24 * 3600);
-            long hours = (totalSeconds % (24 * 3600)) / 3600;
-            long seconds = totalSeconds % 60;
-
-            System.out.printf("O arquivo ficou %02d dias%02d horas%02d segundos%n na fila", days, hours, seconds);
+            System.out.printf("O arquivo ficou %02d segundos na fila\n", totalSeconds);
 
             Documento temp = dados[primeiro];
             primeiro = proximaPosicao(primeiro);
