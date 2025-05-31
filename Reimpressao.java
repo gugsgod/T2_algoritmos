@@ -1,4 +1,7 @@
 import java.util.Scanner;
+import java.io.File;
+import java.util.ArrayList;
+import java.io.FileNotFoundException;
 
 public class Reimpressao {
   public static void main(String[] args) {
@@ -7,6 +10,26 @@ public class Reimpressao {
     String arquivo = null;
     String usuario = null;
     String procura = null;
+
+    try {
+      File file = new File("entrada.txt");
+
+      Scanner arquivoData = new Scanner(file);
+      ArrayList<String> linhas = new ArrayList<>();
+
+      while(arquivoData.hasNextLine()) {
+        String line = arquivoData.nextLine();
+	linhas.add(line);
+      }
+
+      for (int i = 0; i < 20; i = i + 2) {
+        adicionaDocumento(pilha, linhas.get(i), linhas.get(i+1));
+      }
+    }
+    catch (FileNotFoundException e) {
+      System.out.println("File not found.");
+      e.printStackTrace();
+    }
     while (true) {
       int opc = menu();
       if (opc == 0) {

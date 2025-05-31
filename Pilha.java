@@ -145,5 +145,4 @@ class Documento{
         return string;
     }
 
-    
 }
